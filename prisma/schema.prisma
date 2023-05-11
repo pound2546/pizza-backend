@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id       String    @id @default(cuid())
+  username String    @unique
+  password String
+  role     String
+  Address  Address[]
+}
+
+model Address {
+  id      String  @id @default(cuid())
+  name    String
+  address String
+  pincode String
+  phone   String
+  payment String
+  users   Users   @relation(fields: [usersId], references: [id])
+  usersId String
+  Order   Order[]
+
+  @@index([usersId])
+}
+
+model Order {
+  id        String  @id @default(cuid())
+  name      String
+  size      String
+  amount    String
+  price     String
+  status    Boolean
+  address   Address @relation(fields: [addressId], references: [id])
+  addressId String
+}
