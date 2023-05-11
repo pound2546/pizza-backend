@@ -43,7 +43,7 @@ app.post("/login", async (req, res) => {
 //####################################################################################################################################################################################
 
 app.post("/register", async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password,role } = req.body;
     const user = await prisma.users.findUnique({
         where: {
             username,
@@ -55,7 +55,7 @@ app.post("/register", async (req, res) => {
         data: {
             username,
             password: encode,
-            role: "user",
+            role
         },
     });
     return res.json({ status: 200, msg: "Register success" });
